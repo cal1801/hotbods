@@ -27,7 +27,7 @@
         <div class="card-block">
           <p class="card-text">
             <%@users.order(:id).each do |user|%>
-              <%=user.first_name%> - <%=(weight = user.weight_data.last.try(:weight)).nil? ? "n/a" : weight%><br/>
+              <%=user.first_name%> - <%=(weight = user.weight_data.order(:created_at).last.try(:weight)).nil? ? "n/a" : weight%><br/>
             <%end%>
           </p>
         </div>
@@ -56,9 +56,9 @@
         <div class="card-block">
           <% if user_signed_in?%>
             <%today = Date.today%>
-            <%if today.all_week.cover?(current_user.weight_data.last.try(:created_at))%>
+            <%if current_user.weight_data.map{|t| t.created_at.to_date}.include?(today)%>
               <p class="card-text">
-                You already have entered a weight for this week. Come back next monday!
+                You already have entered a weight for this week. Come back tomorrow!
               </p>
             <%else%>
               <%= form_for WeightDatum.new, url: {action: "create", controller: "weight_data"}, remote: true, class: "form-inline" do |f| %>
@@ -82,7 +82,7 @@
 
     </div>
     <div class="col-lg-8">
-      <div style="height: 30px" class="hidden-md-up"></div>
+      <div style="height: 30px" class="d-xs-block d-md-none"></div>
       <%= line_chart @users.map { |user| {name: user.first_name, data: @weight_data[user.id]}} %>
     </div>
   </div>
