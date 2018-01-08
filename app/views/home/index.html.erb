@@ -33,17 +33,19 @@
         </div>
       </div>
 
-      <%unless current_user.paid%>
-        <div class="card" style="margin-top: 30px">
-          <div class="card-header">
-            Buy In
+      <% if user_signed_in? %>
+        <%unless current_user.paid%>
+          <div class="card" style="margin-top: 30px">
+            <div class="card-header">
+              Buy In
+            </div>
+            <div class="card-block">
+              <p class="card-text">
+                You owe your buy in money of $50. Click <%=link_to "here", "https://www.paypal.me/BryanCurry", id: "pay_due"%> to pay.
+              </p>
+            </div>
           </div>
-          <div class="card-block">
-            <p class="card-text">
-              You owe your buy in money of $50. Click <%=link_to "here", "https://www.paypal.me/BryanCurry", id: "pay_due"%> to pay.
-            </p>
-          </div>
-        </div>
+        <%end%>
       <%end%>
 
 
@@ -90,7 +92,7 @@
   $("#pay_due").on('click', function() {
     $.ajax({
       url: "<%=paid_url%>",
-      data: {'id': <%=current_user.id%>}
+      data: {'id': <%=current_user.id if user_signed_in? %>}
     })
   });
 </script>
