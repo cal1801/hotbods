@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hotbods</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'bootstrap-growl.min'%>
+  <%= csrf_meta_tags %>
+  <style>
+    .card-block {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+      padding: 1.25rem;
+    }
+  </style>
+</head>
+<body style="background: url(http://gifs.gifburger.com/601-eric-prydz-call-on-me-girls-only-hd-uncut.gif);background-size: cover">
+
+<%if !!notice%>
+  <script>
+    $.bootstrapGrowl("<%= notice %>", {
+      type: 'success',
+      delay: 3000,
+      width: 'auto',
+    });
+  </script>
+<%end%>
+<%if !!alert%>
+  <p class="alert"><%= alert %></p>
+<%end%>
+<%= yield %>
+
+</body>
+</html>
