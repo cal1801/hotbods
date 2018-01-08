@@ -27,11 +27,24 @@
         <div class="card-block">
           <p class="card-text">
             <%@users.order(:id).each do |user|%>
-              <%=user.first_name%> - <%=user.weight_data.last.try(:weight)%><br/>
+              <%=user.first_name%> - <%=(weight = user.weight_data.last.try(:weight)).nil? ? "n/a" : weight%><br/>
             <%end%>
           </p>
         </div>
       </div>
+
+      <%unless current_user.paid%>
+        <div class="card" style="margin-top: 30px">
+          <div class="card-header">
+            Buy In
+          </div>
+          <div class="card-block">
+            <p class="card-text">
+              You owe your buy in money of $50. Click <%=link_to "here", "https://www.paypal.me/BryanCurry", id: "pay_due"%> to pay.
+            </p>
+          </div>
+        </div>
+      <%end%>
 
 
       <div class="card" style="margin-top: 30px">
@@ -72,3 +85,12 @@
     </div>
   </div>
 </div>
+
+<script>
+  $("#pay_due").on('click', function() {
+    $.ajax({
+      url: "<%=paid_url%>",
+      data: {'id': <%=current_user.id%>}
+    })
+  });
+</script>

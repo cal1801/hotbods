@@ -12,4 +12,10 @@ class HomeController < ActionController::Base
     end
   end
 
+  def paid
+    user = User.find(params[:id])
+    user.update_attribute('paid', true)
+    render :nothing => true
+  end
+
 end
