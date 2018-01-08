@@ -81,6 +81,6 @@ test:
 production:
   <<: *default
   url: ENV['DATABASE_URL']
-  database: hotbods_production
-  username: hotbods
-  password: <%= ENV['HOTBODS_DATABASE_PASSWORD'] %>
+  #database: hotbods_production
+  #username: hotbods
+  #password: <%= ENV['HOTBODS_DATABASE_PASSWORD'] %>
