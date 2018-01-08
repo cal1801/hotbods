@@ -57,9 +57,21 @@
           <% if user_signed_in?%>
             <%today = Date.today%>
             <%if current_user.weight_data.map{|t| t.created_at.to_date}.include?(today)%>
-              <p class="card-text">
-                You already have entered a weight for this week. Come back tomorrow!
+              <p id="text-to-hide" class="card-text">
+                You already have entered a weight for this week. Come back tomorrow!<br>
+                <a href="#" onclick="return false;" id="edit_weight">Edit Today's Weight</a>
               </p>
+              <%=form_for(current_user.weight_data.select{|t| t.created_at.to_date == today}.first, html: {style: "display: none"}) do |f|%>
+                <div class="form-group">
+                  <%= f.label :weight %><br />
+                  <%= f.text_field :weight, class: "form-control" %>
+                </div>
+
+                <div class="actions">
+                  <%= f.submit "Update Weight", class: "btn btn-primary"%>
+                  <%=link_to "Cancel", "", onclick: "return false;", class: "text-danger ml-3"%>
+                </div>
+              <%end%>
             <%else%>
               <%= form_for WeightDatum.new, url: {action: "create", controller: "weight_data"}, remote: true, class: "form-inline" do |f| %>
                 <div class="form-group">
@@ -94,5 +106,15 @@
       url: "<%=paid_url%>",
       data: {'id': <%=current_user.id if user_signed_in? %>}
     })
+  });
+
+  $("#edit_weight").on('click', function() {
+    $(".edit_weight_datum").show()
+    $("#text-to-hide").hide()
+  });
+
+  $(".text-danger").on('click', function() {
+    $(".edit_weight_datum").hide()
+    $("#text-to-hide").show()
   });
 </script>

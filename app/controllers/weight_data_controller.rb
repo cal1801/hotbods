@@ -6,7 +6,13 @@ class WeightDataController < ActionController::Base
 
   def create
     WeightDatum.create(weight_datum_params)
+    redirect_to "/"
+  end
 
+  def update
+    data = WeightDatum.find(params[:id])
+    data.update_attributes(weight_datum_params)
+    flash[:notice] = "Today's weight was updated to #{data.weight}"
     redirect_to "/"
   end
 
