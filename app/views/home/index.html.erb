@@ -1,17 +1,17 @@
 <nav class="navbar navbar-light bg-light">
   <div>
     <a class="navbar-brand" href="#">HotBods</a>
-    <%="Hello #{current_user.first_name}" if user_signed_in?%>
     <%#= link_to('Enter Weight', new_user_session_path)  %>
   </div>
 
   <div>
     <% if user_signed_in? %>
       <%#= link_to "Edit User", edit_user_registration_path %>
-      <%= link_to 'Logout', destroy_user_session_path, method: :delete, style: "margin-left:30px" %>
+      <%="Hello #{current_user.first_name}" if user_signed_in?%> |
+      <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
     <% else %>
-      <%= link_to 'Sign Up', new_user_registration_path, style: "margin-left:30px" %>
-      <%= link_to 'Login', new_user_session_path, style: "margin-left:30px" %>
+      <%= link_to 'Sign Up', new_user_registration_path %> |
+      <%= link_to 'Login', new_user_session_path %>
     <% end %>
   </div>
 </nav>
@@ -60,7 +60,7 @@
               <% end %>
             <%end%>
           <%else%>
-            Use the link in the top right to login/sign up
+            <%= link_to 'Sign Up', new_user_registration_path %> or <%= link_to 'Login', new_user_session_path %> to record your weight for this week
           <%end%>
         </div>
       </div>
