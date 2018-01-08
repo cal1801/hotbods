@@ -39,7 +39,7 @@
           </div>
           <div class="card-block">
             <%today = Date.today%>
-            <%if today.all_week.cover?(today)%>
+            <%if today.all_week.cover?(current_user.weight_data.last.try(:created_at))%>
               <p class="card-text">
                 You already have entered a weight for this week. Come back next monday!
               </p>
