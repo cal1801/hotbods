@@ -96,9 +96,9 @@
     <div class="col-lg-8">
       <div style="height: 30px" class="d-xs-block d-md-none"></div>
       <a href="" id="show_week" class="active" onclick="return false;">This Week</a> | <a href="" id="show_all" onclick="return false;">All Time</a>
-      <div id="this_week"><%= line_chart @users.map { |user| {name: user.first_name, data: @this_week[user.id]}} %></div>
+      <div id="this_week"><%= line_chart @users.map { |user| {name: user.first_name, data: @this_week[user.id]}}, min: 100 %></div>
       <br/>
-      <div id="all_time" class="invisible"><%= line_chart @users.map { |user| {name: user.first_name, data: @weight_data[user.id]}} %></div>
+      <div id="all_time" class="invisible"><%= line_chart @users.map { |user| {name: user.first_name, data: @weight_data[user.id]}}, min: 100 %></div>
     </div>
   </div>
 </div>

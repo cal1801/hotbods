@@ -17,7 +17,11 @@ class HomeController < ActionController::Base
         data = @this_week[user.id] = {}
         Date.today().all_week.each do |date|
           weight = user.weight_data.select{|d| (d.created_at-6.hours).to_date == date}.first
-          data[date] = weight.weight unless weight.nil?
+          if weight.nil?
+            data[date] = 'n/a'
+          else
+            data[date] = weight.weight
+          end
         end
       end
     end
