@@ -8,7 +8,7 @@ class HomeController < ActionController::Base
     @users.order(:id).each do |user|
       user_data = @weight_data[user.id] = {}
 
-      user.weight_data.group_by{|d| d.created_at.all_week}.each do |date, weights|
+      user.weight_data.group_by{|d| (d.created_at-6.hours).all_week}.each do |date, weights|
         user_data[date.first.strftime("%b %d, %Y")] = weights.max_by(&:created_at).weight
       end
 

@@ -56,12 +56,12 @@
         <div class="card-block">
           <% if user_signed_in?%>
             <%today = Date.today%>
-            <%if current_user.weight_data.map{|t| t.created_at.to_date}.include?(today)%>
+            <%if current_user.weight_data.map{|t| (t.created_at-6.hours).to_date}.include?(today)%>
               <p id="text-to-hide" class="card-text">
                 You already have entered a weight for this week. Come back tomorrow!<br>
                 <a href="#" onclick="return false;" id="edit_weight">Edit Today's Weight</a>
               </p>
-              <%=form_for(current_user.weight_data.select{|t| t.created_at.to_date == today}.first, html: {style: "display: none"}) do |f|%>
+              <%=form_for(current_user.weight_data.select{|t| (t.created_at-6.hours).to_date == today}.first, html: {style: "display: none"}) do |f|%>
                 <div class="form-group">
                   <%= f.label :weight %><br />
                   <%= f.text_field :weight, class: "form-control" %>
