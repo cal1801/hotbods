@@ -95,17 +95,37 @@
     </div>
     <div class="col-lg-8">
       <div style="height: 30px" class="d-xs-block d-md-none"></div>
-      <%= line_chart @users.map { |user| {name: user.first_name, data: @weight_data[user.id]}} %>
+      <a href="" id="show_week" class="active" onclick="return false;">This Week</a> | <a href="" id="show_all" onclick="return false;">All Time</a>
+      <div id="this_week"><%= line_chart @users.map { |user| {name: user.first_name, data: @this_week[user.id]}} %></div>
+      <br/>
+      <div id="all_time" class="invisible"><%= line_chart @users.map { |user| {name: user.first_name, data: @weight_data[user.id]}} %></div>
     </div>
   </div>
 </div>
 
 <script>
-  $("#pay_due").on('click', function() {
-    $.ajax({
-      url: "<%=paid_url%>",
-      data: {'id': <%=current_user.id if user_signed_in? %>}
-    })
+  <%if user_signed_in?%>
+    $("#pay_due").on('click', function() {
+      $.ajax({
+        url: "<%=paid_url%>",
+        data: {'id': <%=current_user.id %>}
+      })
+    });
+  <%end%>
+
+  $("#show_week").on('click', function() {
+    $("#this_week").show()
+    $("#all_time").hide()
+    $(this).addClass('active')
+    $("#show_all").removeClass('active')
+  });
+
+  $("#show_all").on('click', function() {
+    $("#this_week").hide()
+    $("#all_time").show()
+    $("#all_time").removeClass('invisible')
+    $(this).addClass('active')
+    $("#show_week").removeClass('active')
   });
 
   $("#edit_weight").on('click', function() {
