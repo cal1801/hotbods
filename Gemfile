@@ -29,6 +29,8 @@ gem 'bootstrap', '~> 4.0.0.beta3'
 
 gem "chartkick"
 
+gem 'newrelic_rpm'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
