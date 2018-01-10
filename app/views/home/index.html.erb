@@ -98,9 +98,11 @@
       <div class="card">
         <div class="card-block">
           <a href="" id="show_week" class="active" onclick="return false;">This Week</a> | <a href="" id="show_all" onclick="return false;">All Time</a>
-          <div id="this_week"><%= line_chart @users.map { |user| {name: user.first_name, data: @this_week[user.id]}}, min: 100 %></div>
+          <%all_weights = @this_week.values.map{|v| v.values}.flatten%>
+          <div id="this_week"><%= line_chart @users.map { |user| {name: user.first_name, data: @this_week[user.id]}}, min: all_weights.min.round - 15, max: all_weights.max.round + 15 %></div>
           <br/>
-          <div id="all_time" class="invisible"><%= line_chart @users.map { |user| {name: user.first_name, data: @weight_data[user.id]}}, min: 100 %></div>
+          <%all_weights = @weight_data.values.map{|v| v.values}.flatten%>
+          <div id="all_time" class="invisible"><%= line_chart @users.map { |user| {name: user.first_name, data: @weight_data[user.id]}}, min: all_weights.min.round - 15, max: all_weights.max.round + 15 %></div>
         </div>
       </div>
     </div>
