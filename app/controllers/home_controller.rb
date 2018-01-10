@@ -15,12 +15,14 @@ class HomeController < ActionController::Base
       @this_week = {}
       @users.order(:id).each do |user|
         data = @this_week[user.id] = {}
+        prev_weight = ""
         Date.today().all_week.each do |date|
           weight = user.weight_data.select{|d| (d.created_at-6.hours).to_date == date}.first
           if weight.nil?
-            data[date] = 'n/a'
+            data[date] = prev_weight
           else
             data[date] = weight.weight
+            prev_weight = weight.weight
           end
         end
       end
