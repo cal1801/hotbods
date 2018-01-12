@@ -24,7 +24,7 @@ class HomeController < ActionController::Base
               data[date] = prev_weight
             else
               data[date] = weight.weight
-              prev_weight = weight.weight
+              prev_weight = weight.weight unless date == Date.today()
             end
           end
         end
