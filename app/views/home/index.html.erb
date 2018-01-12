@@ -28,7 +28,7 @@
         <div class="card-block">
           <p class="card-text">
             <%@users.order(:id).each do |user|%>
-              <%=user.first_name%> - <%=(weight = user.weight_data.order(:created_at).last.try(:weight)).nil? ? "n/a" : weight%><br/>
+              <%=user.first_name%> - <%=(weight = user.weight_data.order(:created_at).last.try(:weight)).nil? ? "n/a" : weight%> | <%=(((user.weight_data.first.weight - user.weight_data.last.weight) / user.weight_data.first.weight) * 100).round(2)%>% Change<br/>
             <%end%>
           </p>
         </div>
