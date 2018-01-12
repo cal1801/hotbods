@@ -1,6 +1,7 @@
 class HomeController < ActionController::Base
   layout "application"
   def index
+    Time.zone = "Central Time (US & Canada)"
     @users = User.all
 
     @weight_data = {}
@@ -8,7 +9,7 @@ class HomeController < ActionController::Base
     @users.order(:id).each do |user|
       user_data = @weight_data[user.id] = {}
 
-      user.weight_data.group_by{|d| (d.created_at-6.hours).all_week}.each do |date, weights|
+      user.weight_data.group_by{|d| (d.created_at.in_time_zone).all_week}.each do |date, weights|
         user_data[date.first.strftime("%b %d, %Y")] = weights.max_by(&:created_at).weight
       end
 
@@ -18,7 +19,7 @@ class HomeController < ActionController::Base
         prev_weight = ""
         Date.today().all_week.each do |date|
           if date <= Date.today()
-            weight = user.weight_data.select{|d| (d.created_at-6.hours).to_date == date}.first
+            weight = user.weight_data.select{|d| (d.created_at.in_time_zone).to_date == date}.first
             if weight.nil?
               data[date] = prev_weight
             else
