@@ -17,17 +17,33 @@ class HomeController < ActionController::Base
       @users.order(:id).each do |user|
         data = @this_week[user.id] = {}
         prev_weight = ""
-        Date.today().all_week.each do |date|
-          if date <= Date.today()
+
+        if true #new way
+          date = Date.today()-6.days
+          loop do
             weight = user.weight_data.select{|d| (d.created_at.in_time_zone).to_date == date}.first
             if weight.nil?
-              data[date] = prev_weight unless date == Date.today()
+              data[date] = prev_weight.to_i unless date == Date.today()
             else
               data[date] = weight.weight
               prev_weight = weight.weight
             end
+            date = date + 1.day
+            break if date == Date.today()+1.day
           end
-        end
+        else #old way
+          Date.today().all_week.each do |date|
+            if date <= Date.today()
+              weight = user.weight_data.select{|d| (d.created_at.in_time_zone).to_date == date}.first
+              if weight.nil?
+                data[date] = prev_weight unless date == Date.today()
+              else
+                data[date] = weight.weight
+                prev_weight = weight.weight
+              end
+            end
+          end
+        end #end new/old if
       end
     end
   end
