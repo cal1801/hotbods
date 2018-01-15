@@ -23,7 +23,11 @@ class HomeController < ActionController::Base
           loop do
             weight = user.weight_data.select{|d| (d.created_at.in_time_zone).to_date == date}.first
             if weight.nil?
-              data[date] = prev_weight.to_i unless date == Date.today()
+              if prev_weight == nil
+                data[date] = user.weight_data.first.weight
+              else
+                data[date] = prev_weight.to_i unless date == Date.today()
+              end
             else
               data[date] = weight.weight
               prev_weight = weight.weight
